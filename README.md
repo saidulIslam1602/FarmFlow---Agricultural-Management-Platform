@@ -2,11 +2,18 @@
 
 > **Production-Ready Agricultural Management Platform** - A comprehensive farm management system showcasing industry-standard frontend development, professional UX patterns, and modern visualization techniques.
 
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/saidulIslam1602/FarmFlow---Agricultural-Management-Platform)
+[![CI/CD](https://github.com/saidulIslam1602/FarmFlow---Agricultural-Management-Platform/actions/workflows/ci.yml/badge.svg)](https://github.com/saidulIslam1602/FarmFlow---Agricultural-Management-Platform/actions)
+
 ![Next.js](https://img.shields.io/badge/Next.js-14.2-black?style=for-the-badge&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue?style=for-the-badge&logo=typescript)
 ![React](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind-3.4-38B2AC?style=for-the-badge&logo=tailwind-css)
 ![D3.js](https://img.shields.io/badge/D3.js-7.9-F9A03C?style=for-the-badge&logo=d3.js)
+
+## Quick Links
+- **Repository**: https://github.com/saidulIslam1602/FarmFlow---Agricultural-Management-Platform
+- **CI/CD Status**: [View GitHub Actions](https://github.com/saidulIslam1602/FarmFlow---Agricultural-Management-Platform/actions)
 
 ## Overview
 
