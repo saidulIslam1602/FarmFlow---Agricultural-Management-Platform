@@ -101,19 +101,33 @@ jobs:
         compression-level: 6
 
   deploy-preview:
-    name: Preview
+    name: Preview (Optional)
     needs: [build, security]
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
+    continue-on-error: true
     environment:
       name: preview
       url: ${{ steps.deploy.outputs.preview-url }}
     
     steps:
+    - name: Check Vercel secrets
+      id: check-secrets
+      run: |
+        if [ -z "${{ secrets.VERCEL_TOKEN }}" ]; then
+          echo "⚠️ Vercel secrets not configured. Skipping deployment."
+          echo "secrets_available=false" >> $GITHUB_OUTPUT
+          exit 0
+        else
+          echo "secrets_available=true" >> $GITHUB_OUTPUT
+        fi
+    
     - name: Checkout
+      if: steps.check-secrets.outputs.secrets_available == 'true'
       uses: actions/checkout@v4
     
     - name: Deploy to Vercel
+      if: steps.check-secrets.outputs.secrets_available == 'true'
       id: deploy
       uses: amondnet/vercel-action@v25
       with:
@@ -122,8 +136,8 @@ jobs:
         vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
     
     - name: Comment PR
+      if: steps.check-secrets.outputs.secrets_available == 'true' && success()
       uses: actions/github-script@v7
-      if: success()
       with:
         script: |
           github.rest.issues.createComment({
@@ -134,19 +148,33 @@ jobs:
           })
 
   deploy-production:
-    name: Production
+    name: Production (Optional)
     needs: [build, security]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    continue-on-error: true
     environment:
       name: production
       url: https://farmflow.vercel.app
     
     steps:
+    - name: Check Vercel secrets
+      id: check-secrets
+      run: |
+        if [ -z "${{ secrets.VERCEL_TOKEN }}" ]; then
+          echo "⚠️ Vercel secrets not configured. Skipping deployment."
+          echo "secrets_available=false" >> $GITHUB_OUTPUT
+          exit 0
+        else
+          echo "secrets_available=true" >> $GITHUB_OUTPUT
+        fi
+    
     - name: Checkout
+      if: steps.check-secrets.outputs.secrets_available == 'true'
       uses: actions/checkout@v4
     
     - name: Deploy to Vercel
+      if: steps.check-secrets.outputs.secrets_available == 'true'
       uses: amondnet/vercel-action@v25
       with:
         vercel-token: ${{ secrets.VERCEL_TOKEN }}

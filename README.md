@@ -165,11 +165,14 @@ http://localhost:3000
 ### Available Scripts
 
 ```bash
-npm run dev          # Start development server (port 3000)
-npm run build        # Build for production
-npm run start        # Start production server
-npm run lint         # Run ESLint
-npm run type-check   # TypeScript validation
+npm run dev            # Start development server (port 3000)
+npm run build          # Build for production
+npm run start          # Start production server
+npm run lint           # Run ESLint
+npm run type-check     # TypeScript validation
+npm test               # Run Jest tests
+npm run test:watch     # Run tests in watch mode
+npm run test:coverage  # Generate test coverage report
 ```
 
 ---
@@ -456,17 +459,48 @@ SENTRY_ORG=your-org
 SENTRY_PROJECT=farmflow
 ```
 
+### GitHub Secrets for CI/CD (Optional)
+
+To enable automatic Vercel deployments, add these secrets to your GitHub repository:
+
+1. Go to **Settings** → **Secrets and variables** → **Actions**
+2. Add the following secrets:
+   - `VERCEL_TOKEN` - Get from [Vercel Settings → Tokens](https://vercel.com/account/tokens)
+   - `VERCEL_ORG_ID` - Found in your Vercel Organization Settings
+   - `VERCEL_PROJECT_ID` - Found in your Vercel Project Settings
+
+**Note**: Deployment jobs are optional. The CI pipeline will skip them gracefully if secrets aren't configured.
+
 ---
 
 ## CI/CD Pipeline
 
-Automated workflow on every push:
-- Install dependencies
-- Run ESLint
-- Type check with TypeScript
-- Build project
-- Create preview deployment (PRs)
-- Deploy to production (main branch)
+### Automated Workflow
+
+Every push triggers:
+1. **Quality Checks**
+   - Install dependencies with caching
+   - Run ESLint
+   - Type check with TypeScript
+   - Run Jest tests (15+ tests)
+
+2. **Security Scan**
+   - Trivy vulnerability scan
+   - Upload results to GitHub Security
+
+3. **Build**
+   - Production build
+   - Bundle size analysis
+   - Upload build artifacts
+
+4. **Deploy** (Optional - requires secrets)
+   - Preview deployments for PRs
+   - Production deployment for main branch
+
+### Test Coverage
+- Button component: 7 test cases
+- Utils library: 8 test cases
+- All tests passing with Jest + React Testing Library
 
 ---
 
