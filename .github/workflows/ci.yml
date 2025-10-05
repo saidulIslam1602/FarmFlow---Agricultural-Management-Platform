@@ -38,7 +38,7 @@ jobs:
       run: npm run type-check
     
     - name: Run tests
-      run: npm test --if-present
+      run: npm test
 
   security:
     name: Security Scan
